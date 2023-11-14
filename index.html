@@ -8,7 +8,7 @@
 
 body {
   font-family: 'Kanit', sans-serif;
-  background-color: antiquewhite;
+  background-color: yellow;
   margin: 0;
   padding: 0;
   justify-content: center;
@@ -16,7 +16,7 @@ body {
   height: 100vh;
 }
 
-h1 {
+h1, h3 {
   text-align: center;
 }
 
@@ -49,18 +49,19 @@ th.desc::after {
   </style>
 </head>
 <body>
-  <h1>Sortable Table</h1>
+  <h1>Сортируемая тсблица</h1>
+  <h3>Нажмите на заголовки столбцов для сортировки</h3>
   <table>
     <thead>
       <tr>
         <th onclick="requestSort('lastName')" class="lastName">
-          Last Name
+          Имя
         </th>
         <th onclick="requestSort('year')" class="year">
-          Year
+          Год
         </th>
         <th onclick="requestSort('profession')" class="profession">
-          Profession
+          Професия
         </th>
         <!-- Add more columns as needed -->
       </tr>
@@ -70,19 +71,19 @@ th.desc::after {
       <!-- You can manually fill in the data here -->
       <!-- For example: -->
       <tr>
-        <td>Doe</td>
+        <td>Дайко</td>
         <td>1990</td>
-        <td>Engineer</td>
+        <td>Инженер</td>
       </tr>
       <tr>
-        <td>Smith</td>
+        <td>Сора</td>
         <td>1985</td>
-        <td>Doctor</td>
+        <td>Доктор</td>
       </tr>
       <tr>
-        <td>Johnson</td>
+        <td>Джури</td>
         <td>2000</td>
-        <td>Teacher</td>
+        <td>Учительница</td>
       </tr>
       <!-- Add more rows as needed -->
     </tbody>
