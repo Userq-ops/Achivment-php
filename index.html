@@ -1,48 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        * {
-            margin-bottom: 10px 0;
-            padding-left: 2px;
-            margin: 5px;
-            font-size: 20px;
-            font-family: sans-serif;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sortable Table</title>
+  <style>
 
-        footer {
-            position: fixed;
-            bottom: 0; 
-            left: 0; 
-            width: 100%;  
-            padding: 10px; 
-        }
+body {
+  font-family: 'Kanit', sans-serif;
+  background-color: antiquewhite;
+  margin: 0;
+  padding: 0;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
 
+h1 {
+  text-align: center;
+}
 
-    </style>
+table {
+  border-collapse: collapse;
+  width: 70%;
+  margin: 20px auto;
+}
+
+th, td {
+  border: 1px solid black;
+  padding: 10px;
+  text-align: left;
+}
+
+th {
+  cursor: pointer;
+}
+
+th.asc::after {
+  content: ' ▲';
+}
+
+th.desc::after {
+  content: ' ▼';
+}
+
+/* Add more styles as needed */
+
+  </style>
 </head>
-<body background="https://img.freepik.com/premium-photo/white-color-background-with-geometric-shape_84738-9230.jpg?w=2000">    
-    <center>
-        <ul>
-            <a href="https://userq-ops.github.io/Glavnyi-php/">Главное</a>
-            <a href="https://userq-ops.github.io/Education-php/">Образование</a>
-            <a href="https://userq-ops.github.io/Opyt-php/">Опыт работы</a>
-            <a href="https://userq-ops.github.io/Achivment-php/">Достижения</a>
-            <a href="https://userq-ops.github.io/Contact-php/">Контакты</a>
-        </ul>
-        </center>
-    <h2>Достижения</h2>
-    <ul>
-        <li>Участие в проекте "Программирование будущего"</li>
-        <li>Победитель чемпионата по шахматам</li>
-        <li>Автор нескольких статей о программировании</li>
-        <li>Сделал подставное преступление в детском саду, чтобы спасти детей и подарили мне шикарный Дом в Астане за спасение детей</li>
-    </ul>
-    <footer style="font-size: 20px;">
-        <p>&copy; 2023 Лионель Рональдинио</p>
-    </footer>
+<body>
+  <h1>Sortable Table</h1>
+  <table>
+    <thead>
+      <tr>
+        <th onclick="requestSort('lastName')" class="lastName">
+          Last Name
+        </th>
+        <th onclick="requestSort('year')" class="year">
+          Year
+        </th>
+        <th onclick="requestSort('profession')" class="profession">
+          Profession
+        </th>
+        <!-- Add more columns as needed -->
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Populate table body with data -->
+      <!-- You can manually fill in the data here -->
+      <!-- For example: -->
+      <tr>
+        <td>Doe</td>
+        <td>1990</td>
+        <td>Engineer</td>
+      </tr>
+      <tr>
+        <td>Smith</td>
+        <td>1985</td>
+        <td>Doctor</td>
+      </tr>
+      <tr>
+        <td>Johnson</td>
+        <td>2000</td>
+        <td>Teacher</td>
+      </tr>
+      <!-- Add more rows as needed -->
+    </tbody>
+  </table>
+
+  <script>
+    const data = [
+      { lastName: 'Doe', year: 1990, profession: 'Engineer' },
+      { lastName: 'Smith', year: 1985, profession: 'Doctor' },
+      { lastName: 'Johnson', year: 2000, profession: 'Teacher' },
+      // Add more data as needed
+    ];
+
+    let sortConfig = { key: null, direction: 'asc' };
+
+    const requestSort = (key) => {
+      let direction = 'asc';
+      if (sortConfig.key === key && sortConfig.direction === 'asc') {
+        direction = 'desc';
+      }
+      sortConfig = { key, direction };
+      sortTable();
+    };
+
+    const sortTable = () => {
+      const sortedData = [...data].sort((a, b) => {
+        const modifier = sortConfig.direction === 'desc' ? -1 : 1;
+        if (a[sortConfig.key] > b[sortConfig.key]) return modifier;
+        if (a[sortConfig.key] < b[sortConfig.key]) return -modifier;
+        return 0;
+      });
+
+      // Clear existing rows
+      const tbody = document.querySelector('tbody');
+      tbody.innerHTML = '';
+
+      // Populate table with sorted data
+      sortedData.forEach((item) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${item.lastName}</td>
+          <td>${item.year}</td>
+          <td>${item.profession}</td>
+        `;
+        tbody.appendChild(row);
+      });
+
+      // Highlight sorted column
+      const ths = document.querySelectorAll('th');
+      ths.forEach((th) => {
+        th.classList.remove('asc', 'desc');
+      });
+      const currentTh = document.querySelector(`th.${sortConfig.key}`);
+      currentTh.classList.add(sortConfig.direction);
+    };
+  </script>
 </body>
 </html>
